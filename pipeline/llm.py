@@ -42,6 +42,7 @@ def generate_structured(prompt, schema_model, pdf_parts=None, mock_name=None):
 
 
 def _gemini_response(prompt, schema_model, pdf_parts):
+    import logging
     from google import genai
     from google.genai import types
 
@@ -51,25 +52,49 @@ def _gemini_response(prompt, schema_model, pdf_parts):
     for data, mime, _name in pdf_parts:
         contents.append(types.Part.from_bytes(data=data, mime_type=mime))
 
-    # response_mime_type and response_schema must be paired — one without the
-    # other fails silently or raises.
-    config = types.GenerateContentConfig(
-        response_mime_type="application/json",
-        response_schema=schema_model,
-        temperature=0.2,
-    )
+    # Two configs in priority order:
+    #   1. Structured output (response_schema): Gemini returns a typed object.
+    #      This is ideal but can fail if the SDK version rejects nested Pydantic
+    #      models or if the model doesn't support the schema shape.
+    #   2. Plain JSON mode (no response_schema): tell the model to return JSON
+    #      and parse the text ourselves. Slower but universally accepted.
+    configs = [
+        types.GenerateContentConfig(
+            response_mime_type="application/json",
+            response_schema=schema_model,
+            temperature=0.2,
+        ),
+        types.GenerateContentConfig(
+            response_mime_type="application/json",
+            temperature=0.2,
+        ),
+    ]
 
     last_err = None
-    for _attempt in range(2):
-        try:
-            resp = client.models.generate_content(model=MODEL, contents=contents, config=config)
-            if getattr(resp, "parsed", None) is not None:
-                parsed = resp.parsed
-                return parsed.model_dump() if hasattr(parsed, "model_dump") else dict(parsed)
-            return json.loads(resp.text)
-        except Exception as e:
-            last_err = e
-    raise RuntimeError(f"Gemini call failed after retries: {last_err}")
+    for config in configs:
+        for _attempt in range(2):
+            try:
+                resp = client.models.generate_content(
+                    model=MODEL, contents=contents, config=config
+                )
+                # Structured output populates resp.parsed; plain JSON uses resp.text.
+                if getattr(resp, "parsed", None) is not None:
+                    parsed = resp.parsed
+                    return parsed.model_dump() if hasattr(parsed, "model_dump") else dict(parsed)
+                text = getattr(resp, "text", None)
+                if text:
+                    return json.loads(text)
+                # Both paths returned nothing — treat as a soft failure and retry.
+                raise ValueError("Gemini returned an empty response (no parsed object and no text)")
+            except Exception as e:
+                logging.warning("Gemini attempt failed [%s]: %s", type(e).__name__, e)
+                last_err = e
+
+    # Raise preserving the original exception so Streamlit Cloud logs show the
+    # real Google API error (rate limit, schema rejection, auth failure, etc.)
+    raise RuntimeError(
+        f"Gemini call failed after all retries ({type(last_err).__name__}): {last_err}"
+    ) from last_err
 
 
 def _mock_response(schema_model, mock_name):
