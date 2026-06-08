@@ -1,0 +1,33 @@
+{
+  "account": {
+    "business_name": "Becker Roofing",
+    "contact_name": "Tom Becker",
+    "contact_email": "tom.becker@beckerroofing.com",
+    "contact_phone": "612-555-0193",
+    "industry": "Roofing contractor"
+  },
+  "policy": {
+    "carrier": "Liberty Mutual",
+    "policy_number": "BOP9920175",
+    "effective_date": "2025-08-10",
+    "expiration_date": "2026-08-10",
+    "annual_premium_usd": 14200,
+    "prior_annual_premium_usd": 11800,
+    "property_limit_usd": 300000,
+    "gl_per_occurrence_usd": 1000000,
+    "gl_aggregate_usd": 2000000,
+    "deductible_usd": 2500,
+    "endorsements": [
+      "Contractors Installation",
+      "Waiver of Subrogation"
+    ]
+  },
+  "source_documents": [
+    "dec.pdf",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [
+    "annual_premium_usd"
+  ],
+  "extraction_notes": "Declaration page was a scanned image; figures read from the image and should be spot-checked."
+}

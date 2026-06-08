@@ -1,0 +1,32 @@
+{
+  "account": {
+    "business_name": "Bev's Boutique",
+    "contact_name": "Bev Nguyen",
+    "contact_email": "bev.nguyen@gmail.com",
+    "contact_phone": "NOT_FOUND",
+    "industry": "Retail boutique"
+  },
+  "policy": {
+    "carrier": "Hanover",
+    "policy_number": "ZBP 1188340",
+    "effective_date": "2025-09-05",
+    "expiration_date": "2026-09-05",
+    "annual_premium_usd": 3900,
+    "prior_annual_premium_usd": 3950,
+    "property_limit_usd": 120000,
+    "gl_per_occurrence_usd": 1000000,
+    "gl_aggregate_usd": 2000000,
+    "deductible_usd": 500,
+    "endorsements": [
+      "Spoilage",
+      "Sign Coverage"
+    ]
+  },
+  "source_documents": [
+    "dec.pdf",
+    "email_01.txt",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [],
+  "extraction_notes": ""
+}

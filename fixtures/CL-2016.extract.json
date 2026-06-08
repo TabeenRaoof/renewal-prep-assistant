@@ -1,0 +1,32 @@
+{
+  "account": {
+    "business_name": "BrightPath Print Shop",
+    "contact_name": "Tina Brooks",
+    "contact_email": "tina@brightpathprint.com",
+    "contact_phone": "651-555-0148",
+    "industry": "Print shop"
+  },
+  "policy": {
+    "carrier": "Cincinnati",
+    "policy_number": "EBP 0044182",
+    "effective_date": "2026-02-03",
+    "expiration_date": "2027-02-03",
+    "annual_premium_usd": 5300,
+    "prior_annual_premium_usd": 5300,
+    "property_limit_usd": 190000,
+    "gl_per_occurrence_usd": 1000000,
+    "gl_aggregate_usd": 2000000,
+    "deductible_usd": 1000,
+    "endorsements": [
+      "Equipment Breakdown",
+      "Electronic Data"
+    ]
+  },
+  "source_documents": [
+    "dec.pdf",
+    "email_01.txt",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [],
+  "extraction_notes": ""
+}

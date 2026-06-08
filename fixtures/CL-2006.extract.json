@@ -1,0 +1,32 @@
+{
+  "account": {
+    "business_name": "Morales Contracting",
+    "contact_name": "Carlos Morales",
+    "contact_email": "c.morales.contracting@gmail.com",
+    "contact_phone": "NOT_FOUND",
+    "industry": "General contractor"
+  },
+  "policy": {
+    "carrier": "CNA",
+    "policy_number": "B 6610042",
+    "effective_date": "2025-09-11",
+    "expiration_date": "2026-09-11",
+    "annual_premium_usd": 18900,
+    "prior_annual_premium_usd": 16200,
+    "property_limit_usd": 400000,
+    "gl_per_occurrence_usd": 2000000,
+    "gl_aggregate_usd": 4000000,
+    "deductible_usd": 5000,
+    "endorsements": [
+      "Additional Insured - Blanket",
+      "Primary & Noncontributory"
+    ]
+  },
+  "source_documents": [
+    "dec.pdf",
+    "email_01.txt",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [],
+  "extraction_notes": ""
+}

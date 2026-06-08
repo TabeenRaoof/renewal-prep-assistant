@@ -1,0 +1,31 @@
+{
+  "account": {
+    "business_name": "Olson & Sons Plumbing",
+    "contact_name": "Hank Olson",
+    "contact_email": "holson@olsonandsons.com",
+    "contact_phone": "218-555-0102",
+    "industry": "Plumbing contractor"
+  },
+  "policy": {
+    "carrier": "CNA",
+    "policy_number": "B 6610998",
+    "effective_date": "2025-11-22",
+    "expiration_date": "2026-11-22",
+    "annual_premium_usd": 9600,
+    "prior_annual_premium_usd": 9600,
+    "property_limit_usd": 230000,
+    "gl_per_occurrence_usd": 1000000,
+    "gl_aggregate_usd": 2000000,
+    "deductible_usd": 1000,
+    "endorsements": [
+      "Tools & Equipment",
+      "Backup of Sewer & Drain"
+    ]
+  },
+  "source_documents": [
+    "dec.pdf",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [],
+  "extraction_notes": ""
+}

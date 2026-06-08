@@ -1,0 +1,28 @@
+{
+  "what_they_care_about": [
+    {
+      "point": "Price sensitivity - flagged last year's increase as hard to absorb",
+      "evidence": "premium jumped, can't take another hike"
+    },
+    {
+      "point": "Recent growth - added two service vans over winter",
+      "evidence": "added two new service vans"
+    }
+  ],
+  "open_issues": [
+    "Past invoice dispute (resolved per CRM)"
+  ],
+  "loss_history_mentioned": "NOT_FOUND",
+  "coverage_opportunities": [
+    {
+      "gap": "Confirm auto coverage for the two newly added vans",
+      "rationale": "Client added two service vans; the policy carries Hired & Non-Owned Auto, which does not cover owned vehicles - verify whether commercial auto is needed."
+    }
+  ],
+  "suggested_approach": [
+    "Lead the renewal proactively given expiration is ~28 days out - this is urgent.",
+    "Be ready to justify any premium change; the client disputed pricing before.",
+    "Confirm the two new vans are reflected in the right auto coverage."
+  ],
+  "summary": "Urgent renewal for a price-sensitive HVAC client who recently added vehicles. Expect pushback on any increase and verify auto coverage."
+}

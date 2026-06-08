@@ -1,0 +1,31 @@
+{
+  "account": {
+    "business_name": "Meridian Landscaping",
+    "contact_name": "Sandra Liu",
+    "contact_email": "sliu@meridianlandscaping.co",
+    "contact_phone": "NOT_FOUND",
+    "industry": "Landscaping / grounds"
+  },
+  "policy": {
+    "carrier": "The Hartford",
+    "policy_number": "BOP-7781-09",
+    "effective_date": "2025-12-07",
+    "expiration_date": "2026-12-07",
+    "annual_premium_usd": 6700,
+    "prior_annual_premium_usd": 6300,
+    "property_limit_usd": 180000,
+    "gl_per_occurrence_usd": 1000000,
+    "gl_aggregate_usd": 2000000,
+    "deductible_usd": 1000,
+    "endorsements": [
+      "Hired & Non-Owned Auto",
+      "Herbicide/Pesticide Applicator"
+    ]
+  },
+  "source_documents": [
+    "dec.pdf",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [],
+  "extraction_notes": ""
+}

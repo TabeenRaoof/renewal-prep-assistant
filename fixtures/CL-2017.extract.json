@@ -1,0 +1,31 @@
+{
+  "account": {
+    "business_name": "Northside Auto Repair",
+    "contact_name": "NOT_FOUND",
+    "contact_email": "angryclient@protonmail.com",
+    "contact_phone": "NOT_FOUND",
+    "industry": "HVAC contractor"
+  },
+  "policy": {
+    "carrier": "Erie",
+    "policy_number": "Q40 1102554",
+    "effective_date": "2026-04-04",
+    "expiration_date": "2027-04-04",
+    "annual_premium_usd": 8800,
+    "prior_annual_premium_usd": 8800,
+    "property_limit_usd": 210000,
+    "gl_per_occurrence_usd": 1000000,
+    "gl_aggregate_usd": 2000000,
+    "deductible_usd": 2500,
+    "endorsements": [
+      "Garagekeepers $75,000"
+    ]
+  },
+  "source_documents": [
+    "dec.pdf",
+    "email_01.txt",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [],
+  "extraction_notes": ""
+}

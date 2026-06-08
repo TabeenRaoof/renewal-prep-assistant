@@ -1,0 +1,34 @@
+{
+  "account": {
+    "business_name": "Frosted Pine Bakery",
+    "contact_name": "Frost",
+    "contact_email": "orders@frostedpine.com",
+    "contact_phone": "651-555-0148",
+    "industry": "Bakery / food service"
+  },
+  "policy": {
+    "carrier": "Cincinnati",
+    "policy_number": "EBP 0099217",
+    "effective_date": "2025-09-24",
+    "expiration_date": "2026-09-24",
+    "annual_premium_usd": 4600,
+    "prior_annual_premium_usd": 4500,
+    "property_limit_usd": 175000,
+    "gl_per_occurrence_usd": 1000000,
+    "gl_aggregate_usd": 2000000,
+    "deductible_usd": 1000,
+    "endorsements": [
+      "Spoilage $25,000",
+      "Food Contamination"
+    ]
+  },
+  "source_documents": [
+    "dec.pdf",
+    "email_01.txt",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [
+    "property_limit_usd"
+  ],
+  "extraction_notes": "Conflict: client email reports a second location opened in March with more equipment, but the declaration shows a single unchanged property limit. Coverage adequacy needs verifying."
+}

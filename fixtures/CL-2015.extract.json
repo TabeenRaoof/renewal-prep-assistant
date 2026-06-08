@@ -1,0 +1,33 @@
+{
+  "account": {
+    "business_name": "Bright Smiles Dental",
+    "contact_name": "NOT_FOUND",
+    "contact_email": "newlead2024@yahoo.com",
+    "contact_phone": "NOT_FOUND",
+    "industry": "Dental practice"
+  },
+  "policy": {
+    "carrier": "NOT_FOUND",
+    "policy_number": "NOT_FOUND",
+    "effective_date": "NOT_FOUND",
+    "expiration_date": "NOT_FOUND",
+    "annual_premium_usd": 0,
+    "prior_annual_premium_usd": 0,
+    "property_limit_usd": 0,
+    "gl_per_occurrence_usd": 0,
+    "gl_aggregate_usd": 0,
+    "deductible_usd": 0,
+    "endorsements": []
+  },
+  "source_documents": [
+    "email_01.txt",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [
+    "carrier",
+    "policy_number",
+    "expiration_date",
+    "annual_premium_usd"
+  ],
+  "extraction_notes": "No declaration page on file; policy facts unknown, only the inquiry email and CRM row."
+}

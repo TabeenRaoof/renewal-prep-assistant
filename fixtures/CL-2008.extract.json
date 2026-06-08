@@ -1,0 +1,32 @@
+{
+  "account": {
+    "business_name": "Stella Roofing",
+    "contact_name": "Dwight S",
+    "contact_email": "dwight.s@stellaroofing.com",
+    "contact_phone": "NOT_FOUND",
+    "industry": "Roofing contractor"
+  },
+  "policy": {
+    "carrier": "Erie",
+    "policy_number": "Q40 8800113",
+    "effective_date": "2025-10-04",
+    "expiration_date": "2026-10-04",
+    "annual_premium_usd": 12750,
+    "prior_annual_premium_usd": 12750,
+    "property_limit_usd": 280000,
+    "gl_per_occurrence_usd": 1000000,
+    "gl_aggregate_usd": 2000000,
+    "deductible_usd": 2500,
+    "endorsements": [
+      "Tools & Equipment",
+      "Hired & Non-Owned Auto"
+    ]
+  },
+  "source_documents": [
+    "dec.pdf",
+    "email_01.txt",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [],
+  "extraction_notes": ""
+}

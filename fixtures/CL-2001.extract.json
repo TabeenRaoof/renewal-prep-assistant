@@ -1,0 +1,32 @@
+{
+  "account": {
+    "business_name": "Delgado Heating & Air",
+    "contact_name": "Ray Delgado",
+    "contact_email": "r.delgado@delgadohvac.net",
+    "contact_phone": "(952) 555-0177",
+    "industry": "HVAC contractor"
+  },
+  "policy": {
+    "carrier": "The Hartford",
+    "policy_number": "BOP-4471-22",
+    "effective_date": "2025-07-06",
+    "expiration_date": "2026-07-06",
+    "annual_premium_usd": 8450,
+    "prior_annual_premium_usd": 7600,
+    "property_limit_usd": 250000,
+    "gl_per_occurrence_usd": 1000000,
+    "gl_aggregate_usd": 2000000,
+    "deductible_usd": 1000,
+    "endorsements": [
+      "Equipment Breakdown",
+      "Hired & Non-Owned Auto"
+    ]
+  },
+  "source_documents": [
+    "dec.pdf",
+    "email_01.txt",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [],
+  "extraction_notes": ""
+}

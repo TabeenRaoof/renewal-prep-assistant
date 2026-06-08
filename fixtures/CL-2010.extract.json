@@ -1,0 +1,32 @@
+{
+  "account": {
+    "business_name": "Twin Cities Flooring",
+    "contact_name": "Mike",
+    "contact_email": "mike@twincitiesflooring.com",
+    "contact_phone": "NOT_FOUND",
+    "industry": "Flooring contractor"
+  },
+  "policy": {
+    "carrier": "Nationwide",
+    "policy_number": "BP 77120955",
+    "effective_date": "2025-10-19",
+    "expiration_date": "2026-10-19",
+    "annual_premium_usd": 7800,
+    "prior_annual_premium_usd": 7100,
+    "property_limit_usd": 220000,
+    "gl_per_occurrence_usd": 1000000,
+    "gl_aggregate_usd": 2000000,
+    "deductible_usd": 1000,
+    "endorsements": [
+      "Installation Floater",
+      "Goods in Transit"
+    ]
+  },
+  "source_documents": [
+    "dec.pdf",
+    "email_01.txt",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [],
+  "extraction_notes": ""
+}

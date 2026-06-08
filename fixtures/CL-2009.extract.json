@@ -1,0 +1,32 @@
+{
+  "account": {
+    "business_name": "Kapoor Accounting",
+    "contact_name": "Priya Kapoor",
+    "contact_email": "priya.kapoor@kapooraccounting.com",
+    "contact_phone": "NOT_FOUND",
+    "industry": "Accounting firm"
+  },
+  "policy": {
+    "carrier": "Chubb",
+    "policy_number": "3577-44-21",
+    "effective_date": "2025-10-10",
+    "expiration_date": "2026-10-10",
+    "annual_premium_usd": 5400,
+    "prior_annual_premium_usd": 5200,
+    "property_limit_usd": 160000,
+    "gl_per_occurrence_usd": 1000000,
+    "gl_aggregate_usd": 2000000,
+    "deductible_usd": 1000,
+    "endorsements": [
+      "Cyber Liability $50,000",
+      "Professional Liability"
+    ]
+  },
+  "source_documents": [
+    "dec.pdf",
+    "email_01.txt",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [],
+  "extraction_notes": ""
+}

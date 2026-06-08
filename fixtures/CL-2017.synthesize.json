@@ -1,0 +1,23 @@
+{
+  "what_they_care_about": [
+    {
+      "point": "Billing accuracy - charged twice and angry",
+      "evidence": "billed twice, TWICE"
+    },
+    {
+      "point": "Retention at risk - threatening to leave",
+      "evidence": "finding a new agent"
+    }
+  ],
+  "open_issues": [
+    "Double-charge complaint unresolved; threatened bank dispute by Friday"
+  ],
+  "loss_history_mentioned": "NOT_FOUND",
+  "coverage_opportunities": [],
+  "suggested_approach": [
+    "Resolve the double charge immediately before any renewal talk - this is a churn risk.",
+    "Acknowledge the billing error directly and explain how it happened.",
+    "Once resolved, the long runway to expiration gives room to rebuild trust."
+  ],
+  "summary": "An angry client over a double charge, threatening to leave. Fix billing first; renewal is far out so focus on service recovery."
+}

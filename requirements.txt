@@ -1,0 +1,14 @@
+# Core app (always needed)
+streamlit>=1.40
+pdfplumber>=0.11
+pydantic>=2.7
+
+# Live mode only (Gemini). Mock mode does NOT need this installed.
+google-genai>=1.0
+
+# Synthetic data generation only (data/gen_data.py)
+reportlab>=4.0
+pillow>=10.0
+
+# Optional: DOCX ingestion (the stretch format). Skipped gracefully if absent.
+python-docx>=1.1

@@ -1,0 +1,32 @@
+{
+  "account": {
+    "business_name": "Greg's Auto Body",
+    "contact_name": "Greg",
+    "contact_email": "greg@gregsautobody.biz",
+    "contact_phone": "NOT_FOUND",
+    "industry": "Auto body shop"
+  },
+  "policy": {
+    "carrier": "Liberty Mutual",
+    "policy_number": "BOP4471902",
+    "effective_date": "2025-11-04",
+    "expiration_date": "2026-11-04",
+    "annual_premium_usd": 11200,
+    "prior_annual_premium_usd": 9800,
+    "property_limit_usd": 260000,
+    "gl_per_occurrence_usd": 1000000,
+    "gl_aggregate_usd": 2000000,
+    "deductible_usd": 2500,
+    "endorsements": [
+      "Garagekeepers $100,000",
+      "Pollution Liability"
+    ]
+  },
+  "source_documents": [
+    "dec.pdf",
+    "email_01.txt",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [],
+  "extraction_notes": ""
+}

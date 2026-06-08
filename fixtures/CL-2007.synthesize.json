@@ -1,0 +1,28 @@
+{
+  "what_they_care_about": [
+    {
+      "point": "Business growth - opened a second location with more equipment",
+      "evidence": "opened our second location, way more equipment"
+    },
+    {
+      "point": "Assumes they're fully covered",
+      "evidence": "everything still covered right?"
+    }
+  ],
+  "open_issues": [
+    "Property limit may be inadequate for the new location (conflict with dec page)"
+  ],
+  "loss_history_mentioned": "NOT_FOUND",
+  "coverage_opportunities": [
+    {
+      "gap": "Increase property / business personal property limit to cover the second location",
+      "rationale": "Email reports a new location with more equipment, but the dec-page limit is unchanged and covers a single location."
+    }
+  ],
+  "suggested_approach": [
+    "Verify the property limit covers BOTH locations before renewal - the dec page shows one.",
+    "Treat this as an upsell opportunity: more equipment likely means a higher limit.",
+    "Confirm the second location's address is added to the policy."
+  ],
+  "summary": "Bakery quietly opened a second location with more equipment while the policy limit is unchanged - a coverage gap and an upsell. Verify before renewing."
+}

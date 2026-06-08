@@ -1,0 +1,32 @@
+{
+  "account": {
+    "business_name": "Holt Family Daycare",
+    "contact_name": "Marcy Holt",
+    "contact_email": "marcyholt88@gmail.com",
+    "contact_phone": "NOT_FOUND",
+    "industry": "Childcare / daycare"
+  },
+  "policy": {
+    "carrier": "Nationwide",
+    "policy_number": "BP 88213004",
+    "effective_date": "2025-07-19",
+    "expiration_date": "2026-07-19",
+    "annual_premium_usd": 5200,
+    "prior_annual_premium_usd": 5100,
+    "property_limit_usd": 150000,
+    "gl_per_occurrence_usd": 1000000,
+    "gl_aggregate_usd": 2000000,
+    "deductible_usd": 500,
+    "endorsements": [
+      "Abuse & Molestation",
+      "Medical Payments $5,000"
+    ]
+  },
+  "source_documents": [
+    "dec.pdf",
+    "email_01.txt",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [],
+  "extraction_notes": ""
+}

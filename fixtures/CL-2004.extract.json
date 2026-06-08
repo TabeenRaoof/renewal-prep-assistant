@@ -1,0 +1,31 @@
+{
+  "account": {
+    "business_name": "Park Realty",
+    "contact_name": "J. Park",
+    "contact_email": "jpark.realty@outlook.com",
+    "contact_phone": "NOT_FOUND",
+    "industry": "Real estate office"
+  },
+  "policy": {
+    "carrier": "Travelers",
+    "policy_number": "680-7C-114455",
+    "effective_date": "2025-08-24",
+    "expiration_date": "2026-08-24",
+    "annual_premium_usd": 6500,
+    "prior_annual_premium_usd": 0,
+    "property_limit_usd": 200000,
+    "gl_per_occurrence_usd": 1000000,
+    "gl_aggregate_usd": 2000000,
+    "deductible_usd": 1000,
+    "endorsements": [
+      "Professional Liability (E&O) - separate policy"
+    ]
+  },
+  "source_documents": [
+    "dec.pdf",
+    "email_01.txt",
+    "ams_export.csv"
+  ],
+  "low_confidence_fields": [],
+  "extraction_notes": ""
+}
