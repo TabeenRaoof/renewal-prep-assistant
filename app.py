@@ -838,16 +838,22 @@ def render_dashboard():
             create_disabled = (llm.MODE == "mock") or (not uploaded)
             if st.button("Add client", type="primary", disabled=create_disabled):
                 new_files = [(f.name, f.read()) for f in uploaded]
-                with st.spinner("Reading documents and checking your book for duplicates..."):
-                    # One extraction up front: we need the business name to check
-                    # for duplicates, and the full brief if we end up creating one.
-                    brief_obj, _ = build_brief(new_files, client_id="PENDING", mock_stem=None)
-                    brief = brief_obj.model_dump()
-                    name = clean(brief["profile"]["account"]["business_name"])
-                    exact, similar = _match_existing_name(name, rows)
-                    file_hits = _match_existing_files(
-                        new_files, [r.get("client_id", "") for r in rows]
-                    )
+                try:
+                    with st.spinner("Reading documents and checking your book for duplicates..."):
+                        brief_obj, _ = build_brief(new_files, client_id="PENDING", mock_stem=None)
+                        brief = brief_obj.model_dump()
+                        name = clean(brief["profile"]["account"]["business_name"])
+                        exact, similar = _match_existing_name(name, rows)
+                        file_hits = _match_existing_files(
+                            new_files, [r.get("client_id", "") for r in rows]
+                        )
+                except Exception as _exc:
+                    st.error(f"**Extraction failed:** {type(_exc).__name__}: {_exc}", icon="🚨")
+                    # Show the full cause chain so we can diagnose without needing logs.
+                    cause = getattr(_exc, "__cause__", None) or getattr(_exc, "__context__", None)
+                    if cause:
+                        st.error(f"**Caused by:** {type(cause).__name__}: {cause}")
+                    st.stop()
 
                 if not exact and not similar and not file_hits:
                     # Clean — no resemblance to anyone in the book. Create directly.
