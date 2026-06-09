@@ -31,7 +31,7 @@ import datetime as dt
 
 import streamlit as st
 
-from pipeline import build_brief, llm, dates
+from pipeline import build_brief, llm, dates, lifecycle
 from pipeline.ingest import _load_text
 from pipeline.schema import NOT_FOUND
 
@@ -715,6 +715,13 @@ def _create_new_client(files, brief, rows):
     dest = os.path.join(CLIENTS_DIR, new_id)
     added, _skipped = _save_files_dedup(dest, files)
     _append_ams_row(_profile_to_ams_row(new_id, brief["profile"]))
+
+    # First audit entry: how this client entered the book.
+    lifecycle.log_activity(
+        brief, "created",
+        f"Client created from {len(added)} uploaded document(s): {', '.join(added)}",
+        actor="system",
+    )
     with open(saved_brief_path(new_id), "w") as fh:
         json.dump(brief, fh, indent=2)
 
@@ -742,6 +749,23 @@ def _merge_into_existing(cid, files, rows):
             "file(s) were already on record."
         )
     st.session_state["flash"] = msg
+
+    # If this client already has a saved brief, record the doc-add in its audit
+    # log. We append only — no AI fields are touched, preserving prior edits.
+    if added:
+        saved = saved_brief_path(cid)
+        if os.path.exists(saved):
+            try:
+                with open(saved) as fh:
+                    saved_brief = json.load(fh)
+                detail = f"{len(added)} document(s) added: {', '.join(added)}"
+                if skipped:
+                    detail += f" ({len(skipped)} duplicate(s) skipped)"
+                lifecycle.log_activity(saved_brief, "doc_added", detail, actor="agent")
+                with open(saved, "w") as fh:
+                    json.dump(saved_brief, fh, indent=2)
+            except Exception:
+                pass  # an audit-log write must never block filing the documents
     _reset_add_flow()
     go_to_brief(cid)
     st.rerun()
@@ -954,6 +978,10 @@ def render_brief_view(client_id):
         )
         if new_status != current_status:
             b["renewal_status"] = new_status
+            lifecycle.log_activity(
+                b, "status_change",
+                f"Status: {current_status} → {new_status}", actor="agent",
+            )
             st.session_state["brief"] = b
             out_path = saved_brief_path(client_id)
             if os.path.exists(out_path):
@@ -987,6 +1015,25 @@ def render_brief_view(client_id):
             f"**Coverage opportunities ({len(_opps)}):** " + "; ".join(o["gap"] for o in _opps),
             icon="💡",
         )
+
+    # ---- Activity log (audit trail) ----
+    _log = b.get("activity_log", [])
+    _ICONS = {
+        "created": "🆕", "status_change": "🔄", "approved": "✅",
+        "doc_added": "📎", "note": "📝", "reextract": "🔁", "renewed": "🔁",
+    }
+    with st.expander(f"🕓 Activity log ({len(_log)})", expanded=False):
+        if not _log:
+            st.caption("No activity recorded yet. Status changes, approvals, and "
+                       "document additions will be stamped here for the audit trail.")
+        else:
+            # Newest first.
+            for entry in reversed(_log):
+                ts = entry.get("timestamp", "").replace("T", " ")
+                icon = _ICONS.get(entry.get("kind", ""), "•")
+                actor = entry.get("actor", "agent")
+                detail = entry.get("detail", "")
+                st.markdown(f"{icon}  **{ts}**  ·  _{actor}_  \n{detail}")
 
     st.markdown("#### Review & edit — update client info here")
     st.caption(
@@ -1088,6 +1135,8 @@ def render_brief_view(client_id):
         b["approved_at"] = dt.datetime.now().isoformat(timespec="seconds")
         # Carry the current dropdown value into the saved brief.
         b["renewal_status"] = st.session_state.get(f"status_{client_id}", b.get("renewal_status", _DEFAULT_RENEWAL_STATUS))
+
+        lifecycle.log_activity(b, "approved", "Brief reviewed, edited, and approved", actor="agent")
 
         out_path = saved_brief_path(client_id)
         with open(out_path, "w") as fh:
