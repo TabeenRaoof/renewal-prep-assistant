@@ -912,11 +912,39 @@ def render_brief_view(client_id):
     brief, meta = get_or_build_brief(client_id)
     b = brief
 
+    _RENEWAL_STATUSES = [
+        "Renewal Process Not Started",
+        "Renewal Process Started",
+        "Renewal Process Complete",
+    ]
+
     st.divider()
     head_l, head_r = st.columns([2, 1])
     with head_l:
         st.subheader(clean(b["profile"]["account"]["business_name"]) or client_id)
         st.caption(clean(b["profile"]["account"]["industry"]))
+
+        # Status dropdown — saves immediately on change, no Approve & save needed.
+        current_status = b.get("renewal_status", _RENEWAL_STATUSES[0])
+        if current_status not in _RENEWAL_STATUSES:
+            current_status = _RENEWAL_STATUSES[0]
+        new_status = st.selectbox(
+            "Renewal status",
+            options=_RENEWAL_STATUSES,
+            index=_RENEWAL_STATUSES.index(current_status),
+            key=f"status_{client_id}",
+        )
+        if new_status != current_status:
+            b["renewal_status"] = new_status
+            st.session_state["brief"] = b
+            out_path = saved_brief_path(client_id)
+            if os.path.exists(out_path):
+                with open(out_path, "w") as fh:
+                    json.dump(b, fh, indent=2)
+            st.rerun()
+        else:
+            b["renewal_status"] = new_status
+
     with head_r:
         icon, fn = STAGE_BADGE.get(b["renewal_stage"], ("⚪", st.info))
         label = dates.STAGE_LABELS.get(b["renewal_stage"], b["renewal_stage"])
@@ -1040,6 +1068,8 @@ def render_brief_view(client_id):
             pol["annual_premium_usd"], pol["prior_annual_premium_usd"]
         )
         b["approved_at"] = dt.datetime.now().isoformat(timespec="seconds")
+        # Carry the current dropdown value into the saved brief.
+        b["renewal_status"] = st.session_state.get(f"status_{client_id}", b.get("renewal_status", "Renewal Process Not Started"))
 
         out_path = saved_brief_path(client_id)
         with open(out_path, "w") as fh:
