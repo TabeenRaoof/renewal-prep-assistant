@@ -145,7 +145,15 @@ def load_sample_files(client_id):
     return files
 
 
-_DEFAULT_RENEWAL_STATUS = "Not Started"
+_RENEWAL_STATUSES = [
+    "Not Started",
+    "In Progress",
+    "Remarketing",
+    "Pending Client",
+    "Renewed",
+    "Lost",
+]
+_DEFAULT_RENEWAL_STATUS = _RENEWAL_STATUSES[0]
 
 def read_ams_rows():
     if not os.path.exists(AMS_CSV):
@@ -165,8 +173,7 @@ def read_ams_rows():
                 with open(brief_path) as fh:
                     saved = json.load(fh)
                 raw = saved.get("renewal_status", _DEFAULT_RENEWAL_STATUS)
-                # Strip the "Renewal Process " prefix for compact display in the table.
-                r["_renewal_status"] = raw.replace("Renewal Process ", "").strip()
+                r["_renewal_status"] = raw if raw in _RENEWAL_STATUSES else _DEFAULT_RENEWAL_STATUS
             except Exception:
                 r["_renewal_status"] = _DEFAULT_RENEWAL_STATUS
         else:
@@ -927,27 +934,23 @@ def render_brief_view(client_id):
     brief, meta = get_or_build_brief(client_id)
     b = brief
 
-    _RENEWAL_STATUSES = [
-        "Renewal Process Not Started",
-        "Renewal Process Started",
-        "Renewal Process Complete",
-    ]
-
     st.divider()
     head_l, head_r = st.columns([2, 1])
     with head_l:
         st.subheader(clean(b["profile"]["account"]["business_name"]) or client_id)
         st.caption(clean(b["profile"]["account"]["industry"]))
 
-        # Status dropdown — saves immediately on change, no Approve & save needed.
-        current_status = b.get("renewal_status", _RENEWAL_STATUSES[0])
+        # Workflow status dropdown — saves immediately on change.
+        # Not Started → In Progress → Remarketing → Pending Client → Renewed / Lost
+        current_status = b.get("renewal_status", _DEFAULT_RENEWAL_STATUS)
         if current_status not in _RENEWAL_STATUSES:
-            current_status = _RENEWAL_STATUSES[0]
+            current_status = _DEFAULT_RENEWAL_STATUS
         new_status = st.selectbox(
             "Renewal status",
             options=_RENEWAL_STATUSES,
             index=_RENEWAL_STATUSES.index(current_status),
             key=f"status_{client_id}",
+            help="Not Started → In Progress → Remarketing → Pending Client → Renewed / Lost",
         )
         if new_status != current_status:
             b["renewal_status"] = new_status
@@ -1084,7 +1087,7 @@ def render_brief_view(client_id):
         )
         b["approved_at"] = dt.datetime.now().isoformat(timespec="seconds")
         # Carry the current dropdown value into the saved brief.
-        b["renewal_status"] = st.session_state.get(f"status_{client_id}", b.get("renewal_status", "Renewal Process Not Started"))
+        b["renewal_status"] = st.session_state.get(f"status_{client_id}", b.get("renewal_status", _DEFAULT_RENEWAL_STATUS))
 
         out_path = saved_brief_path(client_id)
         with open(out_path, "w") as fh:
