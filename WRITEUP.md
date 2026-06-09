@@ -56,34 +56,32 @@ with no API key (mock mode) so it can be launched and clicked through with zero 
   runs really live in the agency-management system. The CSV reconciliation here hints at
   it (one premium is typo'd low on purpose); production needs a real AMS integration and a
   defined rule for which source wins when they disagree.
-- **Audit trail (now partially addressed).** The tool now maintains a unified activity log
-  on each brief — status changes, manual notes, document additions, and re-extract events
-  are all stamped with timestamp and agent initials. The field-by-field diff on re-extract
-  also records which AI-proposed fields the agent accepted vs. kept. Full AI-proposed-vs-
-  agent-final versioning of the initial extraction is still missing (the fixture JSON holds
-  the AI output; the saved brief holds the final; but there's no per-field diff stored for
-  the *first* generation).
+- **Audit trail (implemented for core events).** Every brief carries an append-only
+  activity log stamped with timestamp and actor. The implemented kinds are: client
+  created, status changed, documents added, and brief approved. Not yet implemented:
+  manual free-text notes, re-extract diff logging, and per-field AI-proposed vs.
+  agent-final versioning of the initial extraction.
 - **Free-tier rate limits.** Flash is ~10 req/min / 250 req/day on the free tier — fine for
   a demo and a small book, not for a nightly run across thousands of policies without a paid
   tier (and a no-training data setting before any real client PII touches it).
 
-## Lifecycle tracking (added after initial build)
+## Lifecycle tracking (implemented)
 
-The tool grew from pure prep-acceleration into a lightweight renewal lifecycle tracker:
+The tool tracks where each renewal sits in the process alongside the time-urgency stage:
 
 - **Workflow status:** the account manager advances each renewal through
-  `NOT_STARTED → IN_PROGRESS → REMARKETING → PENDING_CLIENT → RENEWED / LOST`.
-  This is distinct from the computed time-urgency stage (URGENT/ACT_NOW/…) — two
-  axes that answer different questions.
-- **Term roll-forward:** when a renewal is bound, a single action archives the current
-  term, advances the expiration date one year, rolls the premium history, and resets
-  status to NOT_STARTED for the new term.
-- **Re-extract with diff review:** new documents can be folded in at any time. The AI
-  proposes field changes; the agent accepts or rejects each one. Nothing overwrites a
-  manual edit automatically.
+  `Not Started → In Progress → Remarketing → Pending Client → Renewed / Lost` via a
+  dropdown in the brief. Status changes are saved immediately and reflected in the
+  dashboard Status column. This is intentionally distinct from the computed time-urgency
+  stage (URGENT / ACT_NOW / …) — two axes that answer different questions.
+- **Activity log:** status changes, document additions, and approvals are stamped with
+  timestamp and actor in an append-only log shown in the brief view.
 - **The saved brief is the record of truth:** the dashboard reads saved briefs (falling
-  back to the AMS for un-touched clients) so work done in the brief tab is immediately
+  back to the AMS for un-touched clients) so work done in the brief is immediately
   visible on the portfolio view.
+
+**Not yet implemented:** term roll-forward (archive current term, advance dates +1yr,
+roll premiums, reset status). This requires `dates.add_one_year()`, which was not built.
 
 ## With another week
 

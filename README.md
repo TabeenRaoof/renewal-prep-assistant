@@ -18,10 +18,6 @@ pip install -r requirements.txt
 
 # Generate the synthetic dataset + mock fixtures (one time)
 python data/gen_data.py
-python fixtures/gen_fixtures.py
-
-# Run lifecycle tests
-python tests/test_lifecycle.py
 
 # Run the app
 streamlit run app.py
@@ -84,14 +80,14 @@ You then **edit every field**, set the **workflow status**, and **Approve & save
 human-in-the-loop step.
 
 **Workflow status** (the manual process axis, distinct from time-urgency stage):
-`NOT_STARTED` → `IN_PROGRESS` → `REMARKETING` → `PENDING_CLIENT` → `RENEWED` / `LOST`
+`Not Started` → `In Progress` → `Remarketing` → `Pending Client` → `Renewed` / `Lost`
 
-**Renew & roll term**: when a renewal is bound, one click archives the current term to
-`outputs/history/`, advances the policy dates (+1 year), rolls premiums, and resets
-status to `NOT_STARTED` for the next term.
+The status is a dropdown in the brief — not free-text. Changes save immediately and are
+visible in the portfolio dashboard Status column.
 
-**Activity log**: every status change, manual note, document addition, and re-extract is
-stamped with timestamp and initials for the audit trail.
+**Activity log**: every status change, document addition, and approval is stamped with
+timestamp and actor. The log appears as a collapsible section in the brief view and is
+append-only — it never overwrites prior entries.
 
 ---
 
@@ -128,29 +124,25 @@ client's saved brief is left untouched — your edits are preserved.
 
 ```
 renewal-prep/
-  app.py                  Streamlit UI (brief tab, re-extract tab, dashboard tab)
+  app.py                  Streamlit UI — single-page dashboard + brief drill-down
   pipeline/
-    schema.py             Pydantic data contract (ActivityEntry, RenewalBrief lifecycle fields)
+    schema.py             Pydantic data contract (ExtractedProfile, RenewalInsight, RenewalBrief)
     ingest.py             PDF/TXT/CSV(/DOCX) -> text + native-PDF parts
     llm.py                Provider seam: live Gemini  |  offline mock
     extract.py            LLM call 1 — documents -> structured facts (+ prompt)
     synthesize.py         LLM call 2 — signal -> priorities + suggestions (+ prompt)
-    dates.py              Deterministic renewal staging, premium trend, add_one_year()
-    lifecycle.py          Workflow vocabulary, log_activity(), roll_term()
+    dates.py              Deterministic renewal staging and premium trend
+    lifecycle.py          Workflow vocabulary and log_activity() audit helper
   data/
-    gen_data.py           Generates 18 messy synthetic BOP clients
+    gen_data.py           Generates 18 messy synthetic BOP clients + fixtures
     clients/<ID>/         Per-client dec.pdf + emails
     ams_export.csv        AMS/CRM export (one row per client)
   fixtures/
     gen_fixtures.py       Builds mock outputs from the roster ground truth
     <ID>.extract.json     Mock LLM output, call 1
     <ID>.synthesize.json  Mock LLM output, call 2
-  tests/
-    test_lifecycle.py     Plain-assert tests for deterministic lifecycle transforms
-  outputs/                Approved briefs, history archives, and persisted source docs
+  outputs/                Approved briefs (per-client JSON, written on Approve & save)
     {id}_brief.json
-    history/{id}/         Archived RENEWED-term snapshots
-    sources/{id}/         Persisted document bytes for re-extract
 ```
 
 ---
@@ -162,9 +154,8 @@ book and preps renewals.
 
 **In:** single line of business (BOP); PDF + TXT + CSV ingestion; structured extraction
 with conflict flagging; retention synthesis; light coverage-gap detection (adequacy in
-the existing policy, evidence-based, not sales); full renewal lifecycle tracking
-(status, term roll-forward, activity audit log); human review/edit; portfolio dashboard
-with status filter.
+the existing policy, evidence-based, not sales); workflow status tracking with activity
+audit log; human review/edit; portfolio dashboard with status column.
 
 **Out (on purpose):** remarketing automation, client-facing messaging, quoting,
 multi-line accounts, and OCR tuning. The tool accelerates prep and tracks the process;
