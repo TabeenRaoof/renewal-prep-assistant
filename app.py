@@ -145,6 +145,8 @@ def load_sample_files(client_id):
     return files
 
 
+_DEFAULT_RENEWAL_STATUS = "Not Started"
+
 def read_ams_rows():
     if not os.path.exists(AMS_CSV):
         return []
@@ -156,6 +158,19 @@ def read_ams_rows():
         d = dates.days_until(r.get("expiration_date", ""), today=today)
         r["_days"] = d
         r["_stage"] = dates.renewal_stage(d)
+        # Pull renewal_status from saved brief if one exists; otherwise default.
+        brief_path = os.path.join(OUTPUTS, f"{r.get('client_id', '')}_brief.json")
+        if os.path.exists(brief_path):
+            try:
+                with open(brief_path) as fh:
+                    saved = json.load(fh)
+                raw = saved.get("renewal_status", _DEFAULT_RENEWAL_STATUS)
+                # Strip the "Renewal Process " prefix for compact display in the table.
+                r["_renewal_status"] = raw.replace("Renewal Process ", "").strip()
+            except Exception:
+                r["_renewal_status"] = _DEFAULT_RENEWAL_STATUS
+        else:
+            r["_renewal_status"] = _DEFAULT_RENEWAL_STATUS
     return rows
 
 
@@ -566,9 +581,9 @@ if _flash:
 
 # Column layouts. Weights must match between the header and the data rows.
 # The first column is always the clickable client_id.
-_BUCKET_WEIGHTS = [1.3, 2.2, 1.6, 1.2, 0.7, 1.1, 2.4]
-_BUCKET_HEADERS = ["Client ID", "Client", "Carrier", "Expires", "Days", "Premium", "Note"]
-_FULL_WEIGHTS = [1.3, 2.2, 1.6, 1.2, 0.7, 1.0, 1.1, 1.0]
+_BUCKET_WEIGHTS = [1.3, 2.2, 1.6, 1.2, 0.7, 1.1, 1.5]
+_BUCKET_HEADERS = ["Client ID", "Client", "Carrier", "Expires", "Days", "Premium", "Status"]
+_FULL_WEIGHTS = [1.3, 2.2, 1.6, 1.2, 0.7, 1.0, 1.1, 1.5]
 _FULL_HEADERS = ["Client ID", "Client", "Carrier", "Expires", "Days", "Stage", "Premium", "Status"]
 
 
@@ -643,12 +658,12 @@ def render_client_rows(bucket, key_prefix, full=False):
         expires = dates.format_us(r.get("expiration_date", "")) or "—"
         days = r["_days"]
         premium = format_money(parse_money(r.get("annual_premium", "")))
+        renewal_status = r.get("_renewal_status", _DEFAULT_RENEWAL_STATUS)
 
         if full:
-            values = [client, carrier, expires, str(days), r["_stage"], premium, dash(r.get("status", ""))]
+            values = [client, carrier, expires, str(days), r["_stage"], premium, renewal_status]
         else:
-            note = (r.get("notes", "") or "")[:60]
-            values = [client, carrier, expires, str(days), premium, note]
+            values = [client, carrier, expires, str(days), premium, renewal_status]
 
         for col, val in zip(cols[1:], values):
             col.write(val)
